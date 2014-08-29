@@ -22,7 +22,8 @@ var getEditorData = function(){
   if(editor){
     var inputs = document.querySelectorAll("input");
     for(var i=0;i<inputs.length;i++){
-      obj[inputs[i]["id"]] = inputs[i]["value"];
+      var val = optionNumber(inputs[i]["value"]);
+      obj[inputs[i]["id"]] = val;
     };
   };
   return obj;
@@ -33,4 +34,12 @@ var renderCanvas = function(){
   canvasState.componentList.forEach(function(component){
     render(component,context);
   })
+};
+
+var optionNumber = function(x){
+  if(parseFloat(x)){
+    return parseFloat(x);
+  }else{
+    return x;
+  }
 }
