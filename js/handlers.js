@@ -19,13 +19,14 @@ var handlers = {
     var pos = getMousePosition(canvas,e);
     if(canvasState.selected){
       var component = canvasState.selectedComponents[0];
-      context.clearRect(component.topX,
-            component.topY,
-            component.width,
-            component.height)
+      //context.clearRect(component.topX,
+      //      component.topY,
+      //      component.width,
+      //      component.height)
       component.topX = Math.max(0, pos.x + canvasState.diff.x);
       component.topY = Math.max(0, pos.y + canvasState.diff.y);
-      render(component,context);
+      //render(component,context);
+      renderCanvas();
       clearEditor();
       attachEditor(component);
     };
@@ -45,5 +46,17 @@ var handlers = {
       renderCanvas();
     }
   },
+
+  clickHandler : function(e){
+    var obj = {
+      type:"rectangle",
+      topX:0,
+      topY:0,
+      height:50,
+      width:50
+    };
+    canvasState.componentList.push(obj);
+    renderCanvas();
+  }
 
 }

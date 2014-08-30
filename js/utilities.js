@@ -1,4 +1,24 @@
+var map = Array.prototype.map;
+
+var createElement = function(tag,attributes,value){
+  var el = document.createElement(tag);
+  for(var attr in attributes){
+    el.setAttribute(attr,attributes[attr]);
+  };
+  if(value){
+    var txt = document.createTextNode(value);
+    el.appendChild(txt);
+  }
+  return el;
+};
+
 var clearCanvas = function(){canvas.width = canvas.width};
+
+var clearData = function(){
+  canvasState.componentList = [];
+  canvasState.selectedComponent = [];
+  clearCanvas;
+};
 
 var getMousePosition = function(canvas,evt){
   var rect = canvas.getBoundingClientRect();
@@ -17,16 +37,26 @@ var contain =function(component,x,y){
 };
 
 var getEditorData = function(){
-  var editor = document.querySelector("#editor");
-  var obj = {};
-  if(editor){
-    var inputs = document.querySelectorAll("input");
-    for(var i=0;i<inputs.length;i++){
-      var val = optionNumber(inputs[i]["value"]);
-      obj[inputs[i]["id"]] = val;
-    };
+  var dataObj = {};
+  var aestheticPart = document.querySelectorAll("#editor>div:not(#data) input");
+  for(var i=0;i<aestheticPart.length;i++){
+    var id = aestheticPart[i].id;
+    var value = aestheticPart[i].value;
+    dataObj[id] = value;
   };
-  return obj;
+  var dataPart = document.querySelectorAll("#editor>div#data form");
+  var data = map.call(dataPart,function(x){
+    var inputs = x.querySelectorAll("input");
+    var obj = {};
+    for(var i=0;i<inputs.length;i++){
+      var id = inputs[i].id;
+      var value = inputs[i].value;
+      obj[id] = value;
+    };
+    return obj;
+  });
+  dataObj["data"] = data;
+  return dataObj;
 };
 
 var renderCanvas = function(){
