@@ -57,21 +57,58 @@ var render = function(component,ctx){
 };
 
 var renderFunctions = {
-	rectangle : function(component,ctx){
-		ctx.strokeStyle = '#ff0000'
-		ctx.strokeRect(component.topX,component.topY,component.width,component.height);
+	triangle  : function(component,ctx){
+		ctx.fillStyle = component.color;
+		ctx.beginPath();
+		ctx.moveTo(component.topX,component.topY+component.height);
+		ctx.lineTo(component.topX + component.width/2,component.topY);
+		ctx.lineTo(component.topX + component.width,component.topY+component.height);
+		ctx.closePath();
+		ctx.fill();
 	},
 
-	pictogram : function(component,ctx){
+	rectangle : function(component,ctx){
+		ctx.fillStyle = component.color;
 		ctx.fillRect(component.topX,component.topY,component.width,component.height);
 	},
 
-	row : function(component,ctx){
-		for(var i=0;i<component.value;i++){
-			ctx.globalAlpha = 0.5;
+	circle : function(component,ctx){
+
+			var centerX = component.topX + component.width/2;
+			var centerY = component.topY + component.height/2;
+			var radius = Math.min(component.width/2,component.height/2);
 			ctx.fillStyle = component.color;
-			ctx.fillRect(component.topX,component.topY+i*20,10,10);
+			ctx.beginPath();
+			ctx.arc(centerX,centerY,radius,0,2*Math.PI,false);
+			ctx.closePath();
+			ctx.fill();
+	},
+
+	pictogram : function(component,ctx){
+		var TopX = component.topX;
+		var TopY = component.topY;
+		var dataList = component.data;
+		var width = component.width;
+		var height = component.height;
+		var numOfItem = dataList.length;
+		var value = Math.max.apply(null, map.call(dataList,function(d){return d.value}));
+		var padding = Math.min(width/numOfItem,height/value);
+		for(var i=0;i<numOfItem;i++){
+			var data = dataList[i];
+			//var value = data["value"];
+			var icon = data["icon"];
+			var color = data["color"];
+			for(var j=0;j<data.value;j++){
+				var renderObj = {
+					type : icon,
+					color: color,
+					topX : TopX + i * width/numOfItem,
+					topY : (TopY+height) - (j+1) * height/value,
+					width : (width/numOfItem) * 0.8,
+					height :(height/value) * 0.8,
+				}
+				render(renderObj,ctx);
+			};
 		};
-		ctx.globalAlpha = 1;
 	},
 };

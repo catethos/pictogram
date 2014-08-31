@@ -23,8 +23,8 @@ var handlers = {
       //      component.topY,
       //      component.width,
       //      component.height)
-      component.topX = Math.max(0, pos.x + canvasState.diff.x);
-      component.topY = Math.max(0, pos.y + canvasState.diff.y);
+      component.topX = pos.x + canvasState.diff.x;
+      component.topY = pos.y + canvasState.diff.y;
       //render(component,context);
       renderCanvas();
       clearEditor();

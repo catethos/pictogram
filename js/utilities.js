@@ -42,7 +42,7 @@ var getEditorData = function(){
   for(var i=0;i<aestheticPart.length;i++){
     var id = aestheticPart[i].id;
     var value = aestheticPart[i].value;
-    dataObj[id] = value;
+    dataObj[id] = optionNumber(value);
   };
   var dataPart = document.querySelectorAll("#editor>div#data form");
   var data = map.call(dataPart,function(x){
@@ -51,11 +51,13 @@ var getEditorData = function(){
     for(var i=0;i<inputs.length;i++){
       var id = inputs[i].id;
       var value = inputs[i].value;
-      obj[id] = value;
+      obj[id] = optionNumber(value);
     };
     return obj;
   });
-  dataObj["data"] = data;
+  if(data.length>0){
+  dataObj["data"] = data};
+
   return dataObj;
 };
 
@@ -72,4 +74,13 @@ var optionNumber = function(x){
   }else{
     return x;
   }
-}
+};
+
+var hexToRgb = function (hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+};

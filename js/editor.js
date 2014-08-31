@@ -8,7 +8,8 @@ var meta = {
   id:"string",
   value:"number",
   color:"color",
-  icon:"string",
+  src:"string",
+  icon:"string"
 };
 
 //clear the editor area
@@ -55,6 +56,12 @@ var editors = {
       f.setAttribute("id","data");
       div.appendChild(f);
     };
+    return div;
+  },
+  file : function(attr,obj){
+    var div = labelize(attr,obj);
+    var input = createElement("input",{id:attr,type:"file"});
+    div.appendChild(input);
     return div;
   },
 };
