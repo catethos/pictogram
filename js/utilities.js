@@ -4,7 +4,7 @@ var createElement = function(tag,attributes,value){
   var el = document.createElement(tag);
   for(var attr in attributes){
     el.setAttribute(attr,attributes[attr]);
-  };
+  }
   if(value){
     var txt = document.createTextNode(value);
     el.appendChild(txt);
@@ -12,12 +12,14 @@ var createElement = function(tag,attributes,value){
   return el;
 };
 
-var clearCanvas = function(){canvas.width = canvas.width};
+var clearCanvas = function(){
+  canvas.width = canvas.width;
+  };
 
 var clearData = function(){
   canvasState.componentList = [];
   canvasState.selectedComponent = [];
-  clearCanvas;
+  clearCanvas();
 };
 
 var getMousePosition = function(canvas,evt){
@@ -43,20 +45,21 @@ var getEditorData = function(){
     var id = aestheticPart[i].id;
     var value = aestheticPart[i].value;
     dataObj[id] = optionNumber(value);
-  };
+  }
   var dataPart = document.querySelectorAll("#editor>div#data form");
   var data = map.call(dataPart,function(x){
-    var inputs = x.querySelectorAll("input");
+    var inputs = x.querySelectorAll("input,select");
     var obj = {};
     for(var i=0;i<inputs.length;i++){
       var id = inputs[i].id;
       var value = inputs[i].value;
       obj[id] = optionNumber(value);
-    };
+    }
     return obj;
   });
   if(data.length>0){
-  dataObj["data"] = data};
+    dataObj.data = data;
+  }
 
   return dataObj;
 };
@@ -65,7 +68,7 @@ var renderCanvas = function(){
   clearCanvas();
   canvasState.componentList.forEach(function(component){
     render(component,context);
-  })
+  });
 };
 
 var optionNumber = function(x){
@@ -83,4 +86,32 @@ var hexToRgb = function (hex) {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : null;
+};
+
+var saveData = (function () {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    return function (data, fileName) {
+        var json = JSON.stringify(data),
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+}());
+
+var createPinterestLink = function(){
+  var dataURL = canvas.toDataURL();
+  var linkURL = "www.pinterest.com/pin/create/button/"+
+                "?url=http%3A%2F%2Fwww.flickr.com%2Fphotos%2Fkentbrew%2F6851755809%2F"+
+                "&media="+dataURL+
+                "&description=Next%20stop%3A%20Pinterest" +
+                'data-pin-do="buttonPin" data-pin-config="none"';
+  var link = createElement("a",{href:linkURL});
+  var img = createElement("img",{src:"//assets.pinterest.com/images/pidgets/pin_it_button.png"});
+  link.appendChild(img);
+  return link;              
 };

@@ -16,9 +16,22 @@ var canvasSetup = function(){
 
 var editorSetup = function(){
 	column1 = document.querySelector("#column1");
-	var button = createElement("button",{id:"button"},"Add");
-	button.onclick = handlers.clickHandler;
-	column1.appendChild(button);
+	var div = createElement("div",{id:"panel"});
+	var addDataButton = createElement("button",{id:"addData"},"Add Data");
+	addDataButton.onclick = handlers.addDataHandler;
+	var addDefaultButton = createElement("button",{id:"addDefault"},"Add Diagram");
+	addDefaultButton.onclick = handlers.addDefaultHandler;
+	var saveButton = createElement("button",{id:"save"},"Save as JSON");
+	saveButton.onclick = handlers.saveHandler;
+	var inputFile = createElement("input",{id:"file",type:"file"});
+	var uploadButton = createElement("button",{id:"upload"},"Upload");
+	uploadButton.onclick = handlers.uploadHandler;
+	div.appendChild(addDefaultButton);
+	div.appendChild(addDataButton);
+	div.appendChild(saveButton);
+	div.appendChild(inputFile);
+	div.appendChild(uploadButton);
+	column1.appendChild(div);
 };
 
 //var canvas = document.getElementById("myCanvas");
@@ -52,7 +65,7 @@ var canvasState = {
 // the tast to another function that
 // knows how to render this type of components
 var render = function(component,ctx){
-	var type = component["type"];
+	var type = component.type;
 	renderFunctions[type](component,ctx);
 };
 
@@ -91,13 +104,21 @@ var renderFunctions = {
 		var width = component.width;
 		var height = component.height;
 		var numOfItem = dataList.length;
-		var value = Math.max.apply(null, map.call(dataList,function(d){return d.value}));
+		var value = Math.max.apply(null, map.call(dataList,function(d){
+			return d.value;}));
 		var padding = Math.min(width/numOfItem,height/value);
+		var fontSize = (width/20) | 0;
+		ctx.beginPath();
+		ctx.lineWidth = "2px";
+		ctx.moveTo(TopX-40,TopY+height);
+		ctx.lineTo(TopX+width,TopY+height);
+		ctx.stroke();
+
 		for(var i=0;i<numOfItem;i++){
 			var data = dataList[i];
 			//var value = data["value"];
-			var icon = data["icon"];
-			var color = data["color"];
+			var icon = data.icon;
+			var color = data.color;
 			for(var j=0;j<data.value;j++){
 				var renderObj = {
 					type : icon,
@@ -106,9 +127,13 @@ var renderFunctions = {
 					topY : (TopY+height) - (j+1) * height/value,
 					width : (width/numOfItem) * 0.8,
 					height :(height/value) * 0.8,
-				}
+				};
 				render(renderObj,ctx);
-			};
-		};
+			}
+			ctx.font = fontSize + " Georgia";
+			ctx.fillText(data.id,
+									TopX + i * width/numOfItem + 0.5*((width/numOfItem) * 0.8) - data.id.length*(width/100),
+									TopY + height + 20);
+		}
 	},
 };

@@ -38,7 +38,11 @@
 	width:60px;
 	text-align:center;
 }
-
+form.inner{
+	margin:10px;
+	border: 1px solid black;
+	padding:3px;
+}
 label{
 	float:left;
 	text-align:right;
@@ -47,4 +51,9 @@ label{
 }
 input{
 	margin: 5px auto;
+}
+button{
+	margin:10px;
+	height:15px;
+	width:100px;
 }

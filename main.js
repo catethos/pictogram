@@ -13,7 +13,7 @@ var rectComponent = function(topX,topY,width,height,ctx){
 	this.topY = topY,
 	this.width = width,
 	this.height = height,
-	this.ctx = ctx
+	this.ctx = ctx,
 	//document.addEventListner("mousedown",function(evt){
 	//	pos = getMousePosition(canvas,evt);
 	//	console.log(this.contain(pos.x,pos.y));
@@ -71,4 +71,3 @@ var mouseupHandler = function(e){
 canvas.addEventListener("mousedown",mousedownHandler,false);
 canvas.addEventListener("mousemove",mousedragHandler,false);
 canvas.addEventListener("mouseup",mouseupHandler,false);
-

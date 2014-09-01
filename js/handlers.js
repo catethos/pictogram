@@ -11,7 +11,7 @@ var handlers = {
         canvasState.selected = true;
         clearEditor();
         attachEditor(component);
-      };
+      }
     });
   },
 
@@ -29,7 +29,7 @@ var handlers = {
       renderCanvas();
       clearEditor();
       attachEditor(component);
-    };
+    }
   },
 
   mouseUpHandler : function(e){
@@ -40,9 +40,9 @@ var handlers = {
     if(e.keyCode == 13){
       var newValue = getEditorData();
       var component = canvasState.selectedComponents[0];
-      for(attr in component){
+      for(var attr in component){
         component[attr] = newValue[attr];
-      };
+      }
       renderCanvas();
     }
   },
@@ -57,6 +57,45 @@ var handlers = {
     };
     canvasState.componentList.push(obj);
     renderCanvas();
-  }
+  },
 
-}
+  addDataHandler :function(e){
+    var component = canvasState.selectedComponents[0];
+    component.data.push({id:"new",value:1,color:"black",icon:"rectangle"});
+    clearCanvas();
+    renderCanvas();
+    clearEditor();
+    attachEditor(component);
+  },
+
+  addDefaultHandler : function(e){
+    var component = {
+      type:"pictogram",
+      height:200,
+      width:200,
+      topX:0,
+      topY:0,
+      data:[
+      {id:"new",value:1,color:"black",icon:"rectangle"},
+      ]
+    };
+    canvasState.componentList.push(component);
+    renderCanvas();
+  },
+
+  saveHandler : function(e){
+    saveData(canvasState,"canvas.json");
+  },
+
+  uploadHandler : function(e){
+    var fileSelected = document.querySelector("#file").files[0];
+    var reader = new FileReader();
+    reader.readAsText(fileSelected);
+    reader.onload = function(){
+      var state = JSON.parse(reader.result);
+      canvasState = state;
+      renderCanvas();
+    };
+
+  },
+};
