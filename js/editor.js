@@ -20,7 +20,7 @@ var shapes = [
   "circle"
 ];
 
-//clear the editor area
+// clear the editor area
 var clearEditor = function(){
   var col = document.querySelector("#column1");
   var editor = document.querySelector("#editor");
@@ -29,9 +29,10 @@ var clearEditor = function(){
   }
 };
 
-// Given a data structure that represent
-// partial dom trees
-// return the html dom
+// functions that create
+// appropriate input fields
+// in the editor area
+// for different kind of data.
 var editors = {
   icon : function(attr,obj){
     var div = labelize(attr,obj);
@@ -94,6 +95,10 @@ var labelize = function(attr,obj){
   return div;
 };
 
+// The main function that transform an
+// arbitary object into
+// an editor to edit
+// the attributes of the object.
 var transform = function(obj){
   var form = createElement("form",{id:"editor"});
   for(var attr in obj){
@@ -104,6 +109,7 @@ var transform = function(obj){
   return form;
 };
 
+// Attach the editor to the main DOM.
 var attachEditor = function(component){
   var form = transform(component);
   var col = document.querySelector("#column1");

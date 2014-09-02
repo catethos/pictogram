@@ -1,5 +1,10 @@
+// All the utilities functions that used throught out the project.
+
 var map = Array.prototype.map;
 
+// Just a convenient function to create DOM elements.
+// All the attributes can be passed in using an object
+// so that no need to setAttribute independently.
 var createElement = function(tag,attributes,value){
   var el = document.createElement(tag);
   for(var attr in attributes){
@@ -12,16 +17,23 @@ var createElement = function(tag,attributes,value){
   return el;
 };
 
+// A hack to clear the whole canvas
 var clearCanvas = function(){
   canvas.width = canvas.width;
   };
 
+// Everything about the canvas
+// is stored in the canvasState object.
+// Clearing the componentList and
+// selectedComponent clear all the
+// pictograms on the canvas now.
 var clearData = function(){
   canvasState.componentList = [];
   canvasState.selectedComponent = [];
   clearCanvas();
 };
 
+// Get the mouse position on the canvas
 var getMousePosition = function(canvas,evt){
   var rect = canvas.getBoundingClientRect();
         return {
@@ -30,6 +42,10 @@ var getMousePosition = function(canvas,evt){
         };
 };
 
+// To check whether the a point
+// is inside a pictogram.
+// Useful to determine which pictogram
+// is we now clicking on.
 var contain =function(component,x,y){
   var q = component.topX < x;
   var w = x < component.topX + component.width;
@@ -38,6 +54,9 @@ var contain =function(component,x,y){
   return  q && w && z && v;
 };
 
+// To get the data inside the editor.
+// This is used to update the canvas
+// once we change something inside the editor.
 var getEditorData = function(){
   var dataObj = {};
   var aestheticPart = document.querySelectorAll("#editor>div:not(#data) input");
@@ -64,6 +83,12 @@ var getEditorData = function(){
   return dataObj;
 };
 
+// render all the components on the canvas.
+// componentList contains all the component,
+// so we render each of them sequentially.
+// render is just a fucntion that know
+// how to delegate the rendering job
+// to appropriate function.
 var renderCanvas = function(){
   clearCanvas();
   canvasState.componentList.forEach(function(component){
@@ -71,6 +96,10 @@ var renderCanvas = function(){
   });
 };
 
+// When getting data from the input field
+// everything is just string
+// so this is a convenient hack
+// to turn the number into the number.
 var optionNumber = function(x){
   if(parseFloat(x)){
     return parseFloat(x);
@@ -79,6 +108,7 @@ var optionNumber = function(x){
   }
 };
 
+// Turn the color hex code into RGB format.
 var hexToRgb = function (hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
@@ -88,6 +118,7 @@ var hexToRgb = function (hex) {
     } : null;
 };
 
+// Save the data as file.
 var saveData = (function () {
     var a = document.createElement("a");
     document.body.appendChild(a);
@@ -103,6 +134,7 @@ var saveData = (function () {
     };
 }());
 
+// TODO: implement upload to pinterest.
 var createPinterestLink = function(){
   var dataURL = canvas.toDataURL();
   var linkURL = "www.pinterest.com/pin/create/button/"+
@@ -113,5 +145,5 @@ var createPinterestLink = function(){
   var link = createElement("a",{href:linkURL});
   var img = createElement("img",{src:"//assets.pinterest.com/images/pidgets/pin_it_button.png"});
   link.appendChild(img);
-  return link;              
+  return link;
 };

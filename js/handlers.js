@@ -1,4 +1,10 @@
+// a large object that contains the event handlers.
+
 var handlers = {
+  // The main purpose of this is to determine
+  // which pictogram is we clicking right now
+  // so that we can manipulate the pictogram
+  // independently.
   mouseDownHandler : function(e){
     canvasState.componentList.forEach(function(component){
       var mouseDownPosition = getMousePosition(canvas,e);
@@ -16,16 +22,12 @@ var handlers = {
   },
 
   mouseMoveHandler : function(e){
+    // This is to handle the drag and move.
     var pos = getMousePosition(canvas,e);
     if(canvasState.selected){
       var component = canvasState.selectedComponents[0];
-      //context.clearRect(component.topX,
-      //      component.topY,
-      //      component.width,
-      //      component.height)
       component.topX = pos.x + canvasState.diff.x;
       component.topY = pos.y + canvasState.diff.y;
-      //render(component,context);
       renderCanvas();
       clearEditor();
       attachEditor(component);
@@ -33,10 +35,15 @@ var handlers = {
   },
 
   mouseUpHandler : function(e){
+    // The selected attribute
+    // indicate whether now we
+    // are cllicking on some pictogram.
     canvasState.selected = false;
   },
 
   keyPressHandler : function(e){
+    // Press enter key to
+    // refresh the whole canvas
     if(e.keyCode == 13){
       var newValue = getEditorData();
       var component = canvasState.selectedComponents[0];
@@ -47,19 +54,9 @@ var handlers = {
     }
   },
 
-  clickHandler : function(e){
-    var obj = {
-      type:"rectangle",
-      topX:0,
-      topY:0,
-      height:50,
-      width:50
-    };
-    canvasState.componentList.push(obj);
-    renderCanvas();
-  },
-
   addDataHandler :function(e){
+    // Add more item to the
+    // selected pictogram.
     var component = canvasState.selectedComponents[0];
     component.data.push({id:"new",value:1,color:"black",icon:"rectangle"});
     clearCanvas();
@@ -69,6 +66,8 @@ var handlers = {
   },
 
   addDefaultHandler : function(e){
+    // Add a pictogram with one item
+    // on the canvas.
     var component = {
       type:"pictogram",
       height:200,
@@ -84,10 +83,12 @@ var handlers = {
   },
 
   saveHandler : function(e){
+    // save the canvas into file.
     saveData(canvasState,"canvas.json");
   },
 
   uploadHandler : function(e){
+    // upload the previously saved canvas
     var fileSelected = document.querySelector("#file").files[0];
     var reader = new FileReader();
     reader.readAsText(fileSelected);
