@@ -12,6 +12,11 @@ There are 4 buttons in the editor area:
  3. Save as JSON - To save the working environment into a JSON file.
  4. Upload - To upload the previously saved pictogram.
 
+You need to serve the page with a static page server.
+So if you are in *nix, the simplest way is to use:
+
+    python -m simpleHTTPServer
+
  You can start to explore the app in 2 ways:
   1. Click the "Add Diagram" button and click on the new pictogram in the canvas area.
      The editor area will show all the options you can change to the
@@ -42,7 +47,7 @@ TODO:
   1. Social Media Integration (A server needed to be setup).
   2. A way to delete the pictogram (Now we can only add more pictogram).
   3. Better UI (less editing on the editor area, more direct editing on the canvas).
-  
+
 About the source
 ----------------
   1. index.html : the main html file that provides the general layout.
