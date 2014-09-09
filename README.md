@@ -1,5 +1,12 @@
 README
 ======
+I wrote this app for a job application
+so it is really unpolished.
+It is a simple [pictogram](http://en.wikipedia.org/wiki/Pictogram)
+editor.
+I put it here to serve as a record
+of what I have done. If it is helpful to
+someone, I would be really happy.
 
 The app is divided into 2 parts:
 the left is the editor area and
