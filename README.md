@@ -1,5 +1,8 @@
 README
 ======
+
+![For Chiao Hung](https://raw.githubusercontent.com/catethos/pictogram/master/img/cheshire_cat_128.png)
+
 I wrote this app for a job application
 so it is really unpolished.
 It is a simple [pictogram](http://en.wikipedia.org/wiki/Pictogram)
